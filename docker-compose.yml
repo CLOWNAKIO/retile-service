@@ -3,6 +3,7 @@ version: '3.7'
 services:
   web:
     build: .
+    restart: always
     container_name: 'retile-service'
     command: python manage.py runserver 8000
     volumes:
