@@ -1,4 +1,5 @@
 import os
+import json
 from io import BytesIO
 import requests
 import mercantile
@@ -63,20 +64,21 @@ class IndexAPI(APIView):
         try:
             provider, level, resolution, z, x, y = kwargs.values()
 
-            if z < 0 or z + level < 0:
-                raise WrongParametres
-            else:
+            if z >= 0 and z + level >= 0:
                 min_coord, max_coord = mercantile.minmax(z)
                 if not (min_coord <= x <= max_coord and min_coord <= y <= max_coord):
                     raise WrongParametres
+            else:
+                raise WrongParametres
 
-            match provider:
-                case 'mapbox':
-                    url = "https://api.mapbox.com/v4/mapbox.satellite/{z}/{x}/{y}.jpg90?access_token=pk.eyJ1IjoiZGVhZC1ha2lvIiwiYSI6ImNsamZuODd2OTAydDUzZG9yNDJpaWpqbzEifQ.9iFaiMpZ87YPAwAJluYbDg"
-                case 'google':
-                    url = "http://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}"
-                case _:
-                    raise WrongParametres
+            try:
+                provider_file_path = str(settings.BASE_DIR) + '\providers.json'
+                with open(provider_file_path, 'r') as provider_file:
+                    provider_file_content = provider_file.read()
+                    providers = json.loads(provider_file_content)
+                    url = providers[provider]
+            except:
+                raise WrongParametres
 
             result_filename = 'result.png'
             img_path = settings.MEDIA_ROOT + result_filename
