@@ -64,7 +64,7 @@ class IndexAPI(APIView):
         try:
             provider, level, resolution, z, x, y = kwargs.values()
 
-            if z >= 0 and z + level >= 0:
+            if z >= 0 and z + level >= 0 and resolution >= 0:
                 min_coord, max_coord = mercantile.minmax(z)
                 if not (min_coord <= x <= max_coord and min_coord <= y <= max_coord):
                     raise WrongParametres
