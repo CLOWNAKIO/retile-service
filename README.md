@@ -44,7 +44,7 @@ GET /retile/{provider}/{level}/{resolution}/{z}/{x}/{y}.png/
 
 - provider: string (Должен быть указан в файле конфигурации providers.json)
 - level: integer -inf < value < inf
-- resolution, z, x, y: integer value < inf
+- resolution, z, x, y: integer value >= 0
 
   Например: GET /retile/google/2/512/0/0/0.png/
 
