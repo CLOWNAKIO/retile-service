@@ -72,7 +72,7 @@ class IndexAPI(APIView):
                 raise WrongParametres
 
             try:
-                provider_file_path = str(settings.BASE_DIR) + '\providers.json'
+                provider_file_path = str(settings.BASE_DIR) + '/providers.json'
                 with open(provider_file_path, 'r') as provider_file:
                     provider_file_content = provider_file.read()
                     providers = json.loads(provider_file_content)
@@ -84,11 +84,9 @@ class IndexAPI(APIView):
             img_path = settings.MEDIA_ROOT + result_filename
             img = retile(x, y, z, z + level, url)
             img = img.resize((resolution, resolution), resample=Image.LANCZOS)
-            img.save(img_path)
-            with open(img_path, 'rb') as img:
-                img = img.read()
-            os.unlink(img_path)
-            return HttpResponse(img, content_type='image/png', status=200)
+            response = HttpResponse(content_type='image/png', status=200)
+            img.save(response, "PNG")
+            return response 
 
         except WrongParametres:
             raise WrongParametres
