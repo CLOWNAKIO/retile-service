@@ -43,8 +43,8 @@ GET /retile/{provider}/{level}/{resolution}/{z}/{x}/{y}.png/
 Параметры запроса имеют следующий формат:
 
 - provider: string (Должен быть указан в файле конфигурации providers.json)
-- level: integer -inf < value < inf
-- resolution, z, x, y: integer value >= 0
+- level: integer (-inf < value < inf)
+- resolution, z, x, y: integer (value >= 0), при этом x, y в диапозоне (0, 2<sup>z</sup>-1)
 
   Например: GET /retile/google/2/512/0/0/0.png/
 
