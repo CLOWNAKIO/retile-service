@@ -7,6 +7,6 @@ services:
     container_name: 'retile-service'
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./providers.json:/usr/src/app
+      - ./providers.json:/usr/src/app/providers.json
     ports:
       - 8000:8000
